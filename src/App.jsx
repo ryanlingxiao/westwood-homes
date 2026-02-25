@@ -39,6 +39,12 @@ const App = () => {
   const [selectedProject, setSelectedProject] = useState(null);
   const [lang, setLang] = useState('en');
 
+  // ==========================================
+  // 【地图定位辅助工具】
+  // 将下方的值改为 false 即可一键隐藏百分比网格
+  // ==========================================
+  const SHOW_DEBUG_GRID = true;
+
   const handleImageError = (e) => {
     e.target.onerror = null; 
     e.target.src = "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&q=80&w=1200";
@@ -57,16 +63,10 @@ const App = () => {
     { key: 'land', href: '#land' },
   ];
 
-  // ==========================================
-  // 定位教学：如何调整图钉位置
-  // top: '0%' 是地图最顶端，'100%' 是最底端。
-  // left: '0%' 是地图最左边，'100%' 是最右边。
-  // 你可以根据你截图的比例，随便修改这些数字 (如 '53%', '41.5%')，直到图钉准确落在真实街道上。
-  // ==========================================
   const projects = [
     {
       id: 1,
-      mapPos: { top: '65%', left: '75%' }, // <-- 修改这里来移动项目 1 的位置
+      mapPos: { top: '65%', left: '75%' }, // <-- 参考红蓝网格修改此坐标
       image: '/12811 SE 44th Pl.jpg',
       gallery: [
         '/12811 SE 44th Pl.jpg', '/12811 SE 44th Pl 1.jpg', '/12811 SE 44th Pl 2.jpg', '/12811 SE 44th Pl 3.jpg', 
@@ -85,7 +85,7 @@ const App = () => {
     },
     {
       id: 2,
-      mapPos: { top: '30%', left: '45%' }, // <-- 修改这里来移动项目 2 的位置
+      mapPos: { top: '30%', left: '45%' }, // <-- 参考红蓝网格修改此坐标
       image: '/6020 Oberlin.jpg',
       gallery: [
         '/6020 Oberlin.jpg', '/6020 Oberlin 1.jpg', '/6020 Oberlin 2.jpg', '/6020 Oberlin 3.jpg',
@@ -104,7 +104,7 @@ const App = () => {
     },
     {
       id: 3,
-      mapPos: { top: '55%', left: '42%' }, // <-- 修改这里来移动项目 3 的位置
+      mapPos: { top: '55%', left: '42%' }, // <-- 参考红蓝网格修改此坐标
       image: '/321 MLK JR Way S.jpg',
       gallery: ['/321 MLK JR Way S.jpg', '/321 MLK JR Way S 2.jpg'],
       en: {
@@ -248,10 +248,9 @@ const App = () => {
             </div>
           </div>
           
-          {/* 这里是替换真实地图截图的代码区块 */}
           <div className="relative aspect-[4/5] sm:aspect-[4/3] md:aspect-[21/9] w-full bg-[#f8fafc] rounded-sm overflow-hidden border border-slate-200 shadow-2xl">
             
-            {/* 真实图片底图，请确保上传了 seattle-map.png，如果没有，它会临时加载一张占位图 */}
+            {/* 真实图片底图 */}
             <div className="absolute inset-0 z-0 bg-slate-200">
               <img 
                 src="/seattle-map.png" 
@@ -263,6 +262,26 @@ const App = () => {
                 }}
               />
             </div>
+
+            {/* --- Debug Grid Overlay (10% 间隔) --- */}
+            {SHOW_DEBUG_GRID && (
+              <div className="absolute inset-0 z-10 pointer-events-none">
+                {/* 垂直线 X 轴 (控制 left) */}
+                {[10, 20, 30, 40, 50, 60, 70, 80, 90].map(pct => (
+                  <div key={`v-${pct}`} className="absolute top-0 bottom-0 border-l border-red-500/40 border-dashed flex flex-col justify-between" style={{ left: `${pct}%` }}>
+                    <span className="text-[10px] text-red-600 font-black bg-white/80 px-1 -translate-x-1/2 shadow-sm rounded-sm backdrop-blur-sm">L:{pct}%</span>
+                    <span className="text-[10px] text-red-600 font-black bg-white/80 px-1 -translate-x-1/2 shadow-sm rounded-sm backdrop-blur-sm">L:{pct}%</span>
+                  </div>
+                ))}
+                {/* 水平线 Y 轴 (控制 top) */}
+                {[10, 20, 30, 40, 50, 60, 70, 80, 90].map(pct => (
+                  <div key={`h-${pct}`} className="absolute left-0 right-0 border-t border-blue-500/40 border-dashed flex justify-between items-center" style={{ top: `${pct}%` }}>
+                    <span className="text-[10px] text-blue-600 font-black bg-white/80 px-1 -translate-y-1/2 shadow-sm rounded-sm backdrop-blur-sm">T:{pct}%</span>
+                    <span className="text-[10px] text-blue-600 font-black bg-white/80 px-1 -translate-y-1/2 shadow-sm rounded-sm backdrop-blur-sm">T:{pct}%</span>
+                  </div>
+                ))}
+              </div>
+            )}
 
             {/* 图钉渲染层 */}
             {projects.map((proj) => (
