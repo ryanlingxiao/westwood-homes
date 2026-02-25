@@ -36,8 +36,8 @@ const App = () => {
       description: 'A flagship development in South Seattle, designed for modern urban professionals. This project emphasizes vertical living with massive floor-to-ceiling windows and premium rooftop spaces. The interior flow is optimized for natural light and contemporary art displays.',
       highlights: ['Lake Washington Views', 'Rooftop Entertaining', 'Modern Aesthetic', 'Eco-friendly Siding'],
       mapPos: { top: '65%', left: '42%' },
-      image: '321 MLK JR Way S.jpg',
-      gallery: ['321 MLK JR Way S.jpg', '321 MLK JR Way S 2.jpg']
+      image: '/321 MLK JR Way S.jpg',
+      gallery: ['/321 MLK JR Way S.jpg', '/321 MLK JR Way S 2.jpg']
     },
     {
       id: 2,
@@ -144,7 +144,7 @@ const App = () => {
       {/* Hero Section */}
       <section className="relative h-screen w-full overflow-hidden bg-black">
         <div className="absolute inset-0 opacity-60">
-          <img src="321 MLK JR Way S.jpg" className="w-full h-full object-cover scale-105" alt="Westwood Architecture" onError={handleImageError} />
+          <img src="/321 MLK JR Way S.jpg" className="w-full h-full object-cover scale-105" alt="Westwood Architecture" onError={handleImageError} />
         </div>
         <div className="relative h-full flex flex-col justify-center items-center text-center px-6">
           <span className="text-white/50 text-[10px] uppercase tracking-[1em] mb-10 font-bold">Pacific Northwest Premier Developer</span>
