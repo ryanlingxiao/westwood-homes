@@ -57,11 +57,16 @@ const App = () => {
     { key: 'land', href: '#land' },
   ];
 
+  // ==========================================
+  // 定位教学：如何调整图钉位置
+  // top: '0%' 是地图最顶端，'100%' 是最底端。
+  // left: '0%' 是地图最左边，'100%' 是最右边。
+  // 你可以根据你截图的比例，随便修改这些数字 (如 '53%', '41.5%')，直到图钉准确落在真实街道上。
+  // ==========================================
   const projects = [
     {
       id: 1,
-      // Bellevue: East of Lake Washington, South area
-      mapPos: { top: '70%', left: '72%' },
+      mapPos: { top: '65%', left: '75%' }, // <-- 修改这里来移动项目 1 的位置
       image: '/12811 SE 44th Pl.jpg',
       gallery: [
         '/12811 SE 44th Pl.jpg', '/12811 SE 44th Pl 1.jpg', '/12811 SE 44th Pl 2.jpg', '/12811 SE 44th Pl 3.jpg', 
@@ -80,8 +85,7 @@ const App = () => {
     },
     {
       id: 2,
-      // Seattle North: West of Lake Washington, North area
-      mapPos: { top: '25%', left: '38%' },
+      mapPos: { top: '30%', left: '45%' }, // <-- 修改这里来移动项目 2 的位置
       image: '/6020 Oberlin.jpg',
       gallery: [
         '/6020 Oberlin.jpg', '/6020 Oberlin 1.jpg', '/6020 Oberlin 2.jpg', '/6020 Oberlin 3.jpg',
@@ -100,8 +104,7 @@ const App = () => {
     },
     {
       id: 3,
-      // Seattle South: West of Lake Washington, South area
-      mapPos: { top: '60%', left: '40%' },
+      mapPos: { top: '55%', left: '42%' }, // <-- 修改这里来移动项目 3 的位置
       image: '/321 MLK JR Way S.jpg',
       gallery: ['/321 MLK JR Way S.jpg', '/321 MLK JR Way S 2.jpg'],
       en: {
@@ -212,7 +215,6 @@ const App = () => {
         </div>
         <div className="relative h-full flex flex-col justify-center items-center text-center px-4 md:px-6">
           <span className="text-white/50 text-[9px] md:text-[11px] uppercase tracking-[0.8em] md:tracking-[1em] mb-6 md:mb-10 font-bold">{t[lang].hero.subtitle}</span>
-          {/* 这里修复了重叠问题，使用了自适应字号和合适的行高 leading-[1.1] */}
           <h1 className="text-5xl sm:text-7xl md:text-[8rem] lg:text-[10rem] text-white font-light tracking-tighter mb-12 md:mb-16 max-w-7xl leading-[1.15] md:leading-[1.1]">
             {t[lang].hero.title}
           </h1>
@@ -246,43 +248,23 @@ const App = () => {
             </div>
           </div>
           
-          {/* 精美的手绘大西雅图地区概念底图 */}
+          {/* 这里是替换真实地图截图的代码区块 */}
           <div className="relative aspect-[4/5] sm:aspect-[4/3] md:aspect-[21/9] w-full bg-[#f8fafc] rounded-sm overflow-hidden border border-slate-200 shadow-2xl">
-            {/* SVG Background Map */}
-            <div className="absolute inset-0 z-0">
-              <svg viewBox="0 0 1000 500" className="w-full h-full object-cover opacity-80" preserveAspectRatio="xMidYMid slice">
-                {/* Subtle Grid / Streets Pattern */}
-                <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
-                  <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#e2e8f0" strokeWidth="0.5"/>
-                </pattern>
-                <rect width="1000" height="500" fill="url(#grid)" />
-                
-                {/* Puget Sound (Left edge) */}
-                <path d="M-50,0 L150,0 C120,100 200,200 150,300 C100,400 180,450 150,550 L-50,550 Z" fill="#e2e8f0" />
-                
-                {/* Lake Washington (Center right) */}
-                <path d="M480,-50 C520,50 540,150 520,250 C500,350 530,450 510,550 L600,550 C620,450 600,350 630,250 C660,150 580,50 560,-50 Z" fill="#e2e8f0" />
-                
-                {/* Mercer Island (Inside Lake Washington) */}
-                <path d="M525,280 C540,270 560,320 545,380 C530,440 515,360 525,280 Z" fill="#f8fafc" />
-                
-                {/* Lake Union (Small blob left of Lake WA) */}
-                <path d="M400,180 C430,170 450,190 460,220 C450,230 410,210 400,180 Z" fill="#e2e8f0" />
-
-                {/* Geographic Typography Labels */}
-                <text x="320" y="250" fill="#94a3b8" fontSize="20" letterSpacing="12" fontWeight="bold" textAnchor="middle" className="hidden md:block">SEATTLE</text>
-                <text x="750" y="250" fill="#94a3b8" fontSize="20" letterSpacing="12" fontWeight="bold" textAnchor="middle" className="hidden md:block">BELLEVUE</text>
-                
-                {/* Mobile version labels */}
-                <text x="320" y="250" fill="#94a3b8" fontSize="14" letterSpacing="6" fontWeight="bold" textAnchor="middle" className="block md:hidden">SEATTLE</text>
-                <text x="750" y="250" fill="#94a3b8" fontSize="14" letterSpacing="6" fontWeight="bold" textAnchor="middle" className="block md:hidden">BELLEVUE</text>
-
-                {/* Vertical text for Lake Washington */}
-                <text x="560" y="250" fill="#cbd5e1" fontSize="12" letterSpacing="8" fontWeight="bold" textAnchor="middle" transform="rotate(90 560 250)">LAKE WASHINGTON</text>
-              </svg>
+            
+            {/* 真实图片底图，请确保上传了 seattle-map.png，如果没有，它会临时加载一张占位图 */}
+            <div className="absolute inset-0 z-0 bg-slate-200">
+              <img 
+                src="/seattle-map.png" 
+                className="w-full h-full object-cover grayscale opacity-70 mix-blend-multiply" 
+                alt="Seattle Area Map" 
+                onError={(e) => {
+                  e.target.onerror = null;
+                  e.target.src = "https://images.unsplash.com/photo-1524661135-423995f22d0b?auto=format&fit=crop&q=80&w=1200"; 
+                }}
+              />
             </div>
 
-            {/* Pins Layer */}
+            {/* 图钉渲染层 */}
             {projects.map((proj) => (
               <div 
                 key={proj.id} 
@@ -293,7 +275,7 @@ const App = () => {
                 <div className="w-5 h-5 md:w-6 md:h-6 bg-slate-900 rounded-full absolute -inset-0 animate-ping opacity-10"></div>
                 <div className="w-5 h-5 md:w-6 md:h-6 bg-slate-900 rounded-full relative z-10 border-[4px] md:border-[6px] border-white shadow-2xl group-hover/pin:scale-125 transition-transform duration-500"></div>
                 
-                {/* Tooltip */}
+                {/* 悬浮框 */}
                 <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-4 md:mb-6 bg-white px-6 md:px-8 py-4 md:py-5 shadow-3xl border border-slate-100 opacity-0 group-hover/pin:opacity-100 transition-all translate-y-4 group-hover/pin:translate-y-0 whitespace-nowrap z-30 pointer-events-none">
                   <span className="text-[10px] md:text-[12px] uppercase tracking-[0.4em] font-black block mb-2">{proj[lang].name}</span>
                   <span className="text-[9px] md:text-[10px] text-slate-400 uppercase tracking-widest">{proj[lang].status}</span>
