@@ -43,7 +43,7 @@ const App = () => {
   // 【地图定位辅助工具】
   // 将下方的值改为 false 即可一键隐藏百分比网格
   // ==========================================
-  const SHOW_DEBUG_GRID = true;
+  const SHOW_DEBUG_GRID = false;
 
   const handleImageError = (e) => {
     e.target.onerror = null; 
@@ -66,7 +66,7 @@ const App = () => {
   const projects = [
     {
       id: 1,
-      mapPos: { top: '65%', left: '75%' }, // <-- 参考红蓝网格修改此坐标
+      mapPos: { top: '78%', left: '63%' },
       image: '/12811 SE 44th Pl.jpg',
       gallery: [
         '/12811 SE 44th Pl.jpg', '/12811 SE 44th Pl 1.jpg', '/12811 SE 44th Pl 2.jpg', '/12811 SE 44th Pl 3.jpg', 
@@ -85,7 +85,7 @@ const App = () => {
     },
     {
       id: 2,
-      mapPos: { top: '30%', left: '45%' }, // <-- 参考红蓝网格修改此坐标
+      mapPos: { top: '25%', left: '44%' },
       image: '/6020 Oberlin.jpg',
       gallery: [
         '/6020 Oberlin.jpg', '/6020 Oberlin 1.jpg', '/6020 Oberlin 2.jpg', '/6020 Oberlin 3.jpg',
@@ -104,9 +104,9 @@ const App = () => {
     },
     {
       id: 3,
-      mapPos: { top: '55%', left: '42%' }, // <-- 参考红蓝网格修改此坐标
-      image: '/321 MLK JR Way S.jpg',
-      gallery: ['/321 MLK JR Way S.jpg', '/321 MLK JR Way S 2.jpg'],
+      mapPos: { top: '64%', left: '43%' },
+      image: '/321 MLK JR Way S.png',
+      gallery: ['/321 MLK JR Way S.png', '/321 MLK JR Way S 2.png'],
       en: {
         name: '321 MLK Jr Way S', location: 'Seattle, WA 98144', status: 'Completed (2023)', type: 'Modern Townhouse',
         description: 'A flagship development in South Seattle, designed for modern urban professionals. This project emphasizes vertical living with massive floor-to-ceiling windows and premium rooftop spaces. The interior flow is optimized for natural light and contemporary art displays.',
