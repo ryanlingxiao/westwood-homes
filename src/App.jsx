@@ -29,15 +29,25 @@ const App = () => {
   const projects = [
     {
       id: 1,
-      name: '321 MLK Jr Way S',
-      location: 'Seattle, WA 98144',
-      status: 'Completed (2023)',
-      type: 'Modern Townhouse',
-      description: 'A flagship development in South Seattle, designed for modern urban professionals. This project emphasizes vertical living with massive floor-to-ceiling windows and premium rooftop spaces. The interior flow is optimized for natural light and contemporary art displays.',
-      highlights: ['Lake Washington Views', 'Rooftop Entertaining', 'Modern Aesthetic', 'Eco-friendly Siding'],
-      mapPos: { top: '65%', left: '42%' },
-      image: '/321 MLK JR Way S.png',
-      gallery: ['/321 MLK JR Way S.png', '/321 MLK JR Way S 2.png']
+      name: '12811 SE 44th Pl',
+      location: 'Bellevue, WA 98006',
+      status: 'On Market',
+      type: 'Single Family',
+      description: '4,040 sqft, modern single family luxury home.',
+      highlights: ['Open floorplan', 'Luxury finish', 'Somerset schools', 'Plenty of natural light'],
+      mapPos: { top: '50%', left: '60%' },
+      image: '/12811 SE 44th Pl.jpg',
+      gallery: [
+        '/12811 SE 44th Pl.jpg', 
+        '/12811 SE 44th Pl 1.jpg', 
+        '/12811 SE 44th Pl 2.jpg', 
+        '/12811 SE 44th Pl 3.jpg', 
+        '/12811 SE 44th Pl 4.jpg',
+        '/12811 SE 44th Pl 5.jpg',
+        '/12811 SE 44th Pl 6.jpg',
+        '/12811 SE 44th Pl 7.jpg',
+        '/12811 SE 44th Pl 8.jpg'
+      ]
     },
     {
       id: 2,
@@ -52,14 +62,15 @@ const App = () => {
     },
     {
       id: 3,
-      name: 'Kirkland Waterfront',
-      location: 'Kirkland, WA',
-      status: 'Pipeline',
-      type: 'Boutique Multi-Family',
-      description: 'Concept phase for a high-density, high-design multi-family project near the Kirkland waterfront.',
-      highlights: ['Walkable District', 'Sustainable Design', 'Community Garden'],
-      mapPos: { top: '30%', left: '48%' },
-      image: 'https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&q=80&w=1200'
+      name: '321 MLK Jr Way S',
+      location: 'Seattle, WA 98144',
+      status: 'Completed (2023)',
+      type: 'Modern Townhouse',
+      description: 'A flagship development in South Seattle, designed for modern urban professionals. This project emphasizes vertical living with massive floor-to-ceiling windows and premium rooftop spaces. The interior flow is optimized for natural light and contemporary art displays.',
+      highlights: ['Lake Washington Views', 'Rooftop Entertaining', 'Modern Aesthetic', 'Eco-friendly Siding'],
+      mapPos: { top: '65%', left: '42%' },
+      image: '/321 MLK JR Way S.png',
+      gallery: ['/321 MLK JR Way S.png', '/321 MLK JR Way S 2.png']
     }
   ];
 
