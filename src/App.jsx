@@ -19,7 +19,7 @@ const t = {
   },
   zh: {
     nav: { portfolio: '作品集', philosophy: '品牌理念', map: '开发版图', land: '土地收购', contact: '联系我们', lang: 'EN' },
-    hero: { subtitle: '太平洋西北地区顶尖开发商', title: <>构筑 <br/>非凡愿景。</>, btn1: '探索作品', btn2: '土地收购' },
+    hero: { subtitle: '太平洋西北地区顶尖开发商', title: <>构筑<br/>非凡愿景。</>, btn1: '探索作品', btn2: '土地收购' },
     philosophy: {
       tag: '品牌理念',
       title: '匠心筑造，成就非凡',
@@ -27,7 +27,7 @@ const t = {
     },
     map: { tag: '区域布局', title: '市场版图', text: '深耕高回报核心地段。地图上的每一个坐标，都代表着我们对卓越建筑品质与投资者透明度的战略承诺。' },
     portfolio: { tag: '精选系列', title: '作品集', subtitle: '精品开发项目', view: '查看项目' },
-    land: { tag: '资本与收购', title: <>释放土地的 <br/>真正价值。</>, text: '我们专注于将原始土地和未充分利用的房产，转化为高净值的优质住宅资产。与 Westwood 合作，实现透明、数据驱动的卓越执行。', btn: '申请可行性评估' },
+    land: { tag: '资本与收购', title: <>释放土地的<br/>真正价值。</>, text: '我们专注于将原始土地和未充分利用的房产，转化为高净值的优质住宅资产。与 Westwood 合作，实现透明、数据驱动的卓越执行。', btn: '申请评估' },
     footer: { desc: <>精品住宅开发 <br/>战略性土地收购 <br/>具有远见的资本合作</>, nav: '网站导航', hq: '总部位置', rights: '© 2024 Westwood Homes Partners 版权所有', links: ['隐私政策', '服务条款', '平等机会雇主'] },
     modal: { inquire: '立即咨询' }
   }
@@ -37,7 +37,7 @@ const App = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [selectedProject, setSelectedProject] = useState(null);
-  const [lang, setLang] = useState('en'); // 'en' or 'zh'
+  const [lang, setLang] = useState('en');
 
   const handleImageError = (e) => {
     e.target.onerror = null; 
@@ -60,7 +60,8 @@ const App = () => {
   const projects = [
     {
       id: 1,
-      mapPos: { top: '50%', left: '60%' },
+      // Bellevue: East of Lake Washington, South area
+      mapPos: { top: '70%', left: '72%' },
       image: '/12811 SE 44th Pl.jpg',
       gallery: [
         '/12811 SE 44th Pl.jpg', '/12811 SE 44th Pl 1.jpg', '/12811 SE 44th Pl 2.jpg', '/12811 SE 44th Pl 3.jpg', 
@@ -79,7 +80,8 @@ const App = () => {
     },
     {
       id: 2,
-      mapPos: { top: '35%', left: '38%' },
+      // Seattle North: West of Lake Washington, North area
+      mapPos: { top: '25%', left: '38%' },
       image: '/6020 Oberlin.jpg',
       gallery: [
         '/6020 Oberlin.jpg', '/6020 Oberlin 1.jpg', '/6020 Oberlin 2.jpg', '/6020 Oberlin 3.jpg',
@@ -98,7 +100,8 @@ const App = () => {
     },
     {
       id: 3,
-      mapPos: { top: '65%', left: '42%' },
+      // Seattle South: West of Lake Washington, South area
+      mapPos: { top: '60%', left: '40%' },
       image: '/321 MLK JR Way S.jpg',
       gallery: ['/321 MLK JR Way S.jpg', '/321 MLK JR Way S 2.jpg'],
       en: {
@@ -121,15 +124,15 @@ const App = () => {
       {selectedProject && (
         <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 md:p-12 bg-black/95 backdrop-blur-md transition-all duration-500">
           <div className="bg-white w-full max-w-7xl max-h-[95vh] overflow-y-auto relative rounded-sm shadow-2xl animate-in zoom-in-95">
-            <button onClick={() => setSelectedProject(null)} className="fixed top-10 right-10 z-[110] p-4 bg-white/90 hover:bg-white rounded-full transition-all shadow-2xl border border-slate-100">
-              <X size={28} />
+            <button onClick={() => setSelectedProject(null)} className="fixed top-6 right-6 md:top-10 md:right-10 z-[110] p-3 md:p-4 bg-white/90 hover:bg-white rounded-full transition-all shadow-2xl border border-slate-100">
+              <X size={24} />
             </button>
             <div className="flex flex-col lg:flex-row">
-              <div className="lg:w-3/5 bg-slate-50 p-6 lg:p-16 space-y-10">
+              <div className="lg:w-3/5 bg-slate-50 p-6 lg:p-16 space-y-6 md:space-y-10">
                 <div className="aspect-[16/10] w-full overflow-hidden shadow-2xl border border-white">
                    <img src={selectedProject.image} className="w-full h-full object-cover" alt={selectedProject[lang].name} onError={handleImageError} />
                 </div>
-                <div className="grid grid-cols-2 gap-8">
+                <div className="grid grid-cols-2 gap-4 md:gap-8">
                   {selectedProject.gallery?.map((img, idx) => (
                     <div key={idx} className="aspect-square overflow-hidden shadow-lg hover:scale-105 transition-transform duration-700 bg-slate-200">
                       <img src={img} className="w-full h-full object-cover" alt={`Angle ${idx + 1}`} onError={handleImageError} />
@@ -138,22 +141,22 @@ const App = () => {
                 </div>
               </div>
               <div className="lg:w-2/5 p-8 lg:p-24 flex flex-col justify-center">
-                <span className="text-[10px] uppercase tracking-[0.5em] text-slate-400 block mb-8 font-bold">{selectedProject[lang].status}</span>
-                <h2 className="text-5xl md:text-6xl font-light mb-8 tracking-tighter leading-tight">{selectedProject[lang].name}</h2>
-                <div className="flex items-center text-slate-500 text-[10px] mb-12 tracking-[0.3em] uppercase font-bold">
+                <span className="text-[10px] uppercase tracking-[0.5em] text-slate-400 block mb-6 md:mb-8 font-bold">{selectedProject[lang].status}</span>
+                <h2 className="text-4xl md:text-5xl font-light mb-6 md:mb-8 tracking-tighter leading-tight">{selectedProject[lang].name}</h2>
+                <div className="flex items-center text-slate-500 text-[10px] mb-8 md:mb-12 tracking-[0.3em] uppercase font-bold">
                   <MapPin size={16} className="mr-3 text-slate-300" /> {selectedProject[lang].location}
                 </div>
-                <div className="w-16 h-px bg-slate-200 mb-12"></div>
-                <p className="text-slate-600 leading-relaxed font-light mb-16 text-xl">{selectedProject[lang].description}</p>
-                <div className="grid grid-cols-1 gap-y-6 mb-20">
+                <div className="w-12 md:w-16 h-px bg-slate-200 mb-8 md:mb-12"></div>
+                <p className="text-slate-600 leading-relaxed font-light mb-12 md:mb-16 text-lg md:text-xl">{selectedProject[lang].description}</p>
+                <div className="grid grid-cols-1 gap-y-4 md:gap-y-6 mb-16 md:mb-20">
                   {selectedProject[lang].highlights?.map((tag, i) => (
                     <div key={i} className="flex items-center space-x-4">
                       <div className="w-1 h-1 bg-slate-900 rounded-full"></div>
-                      <span className="text-[11px] uppercase tracking-[0.2em] text-slate-600 font-bold">{tag}</span>
+                      <span className="text-[10px] md:text-[11px] uppercase tracking-[0.2em] text-slate-600 font-bold">{tag}</span>
                     </div>
                   ))}
                 </div>
-                <button className="w-full py-8 bg-slate-900 text-white uppercase tracking-[0.4em] text-[10px] font-black hover:bg-black transition-all shadow-2xl">
+                <button className="w-full py-6 md:py-8 bg-slate-900 text-white uppercase tracking-[0.4em] text-[10px] font-black hover:bg-black transition-all shadow-2xl">
                   {t[lang].modal.inquire} <ArrowRight className="inline-block ml-4" size={16} />
                 </button>
               </div>
@@ -163,15 +166,15 @@ const App = () => {
       )}
 
       {/* --- Navigation --- */}
-      <nav className={`fixed top-0 w-full z-50 transition-all duration-500 px-6 py-6 md:px-16 ${isScrolled ? 'bg-white/95 backdrop-blur-md shadow-sm py-5' : 'bg-transparent text-white'}`}>
+      <nav className={`fixed top-0 w-full z-50 transition-all duration-500 px-6 py-4 md:px-16 md:py-6 ${isScrolled ? 'bg-white/95 backdrop-blur-md shadow-sm' : 'bg-transparent text-white'}`}>
         <div className="max-w-7xl mx-auto flex justify-between items-center">
           <div className="flex items-center space-x-4 group cursor-pointer" onClick={() => window.scrollTo({top: 0, behavior: 'smooth'})}>
             <svg width="45" height="35" viewBox="0 0 40 30" fill="none" className={isScrolled ? 'stroke-black' : 'stroke-white'}>
               <path d="M2 28V18L12 12V2L22 8V20L38 24V28" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
             </svg>
             <div className="flex flex-col -space-y-1">
-              <span className="text-[10px] uppercase tracking-[0.5em] font-light">Homes</span>
-              <span className="text-2xl font-bold tracking-tighter uppercase">Westwood</span>
+              <span className="text-[9px] md:text-[10px] uppercase tracking-[0.5em] font-light">Homes</span>
+              <span className="text-xl md:text-2xl font-bold tracking-tighter uppercase">Westwood</span>
             </div>
           </div>
 
@@ -192,7 +195,7 @@ const App = () => {
           
           <div className="md:hidden flex items-center space-x-4">
              <button onClick={() => setLang(lang === 'en' ? 'zh' : 'en')} className={`text-[10px] font-black ${isScrolled ? 'text-black' : 'text-white'}`}>{t[lang].nav.lang}</button>
-             <button onClick={() => setMobileMenuOpen(true)} className={isScrolled ? 'text-black' : 'text-white'}><Menu size={28} /></button>
+             <button onClick={() => setMobileMenuOpen(true)} className={isScrolled ? 'text-black' : 'text-white'}><Menu size={24} /></button>
           </div>
         </div>
       </nav>
@@ -207,41 +210,79 @@ const App = () => {
             allow="autoplay; fullscreen"
           ></iframe>
         </div>
-        <div className="relative h-full flex flex-col justify-center items-center text-center px-6">
-          <span className="text-white/50 text-[10px] md:text-[11px] uppercase tracking-[1em] mb-10 font-bold">{t[lang].hero.subtitle}</span>
-          <h1 className="text-6xl md:text-[10rem] text-white font-light tracking-tighter mb-16 max-w-7xl leading-[0.8] md:leading-[0.8]">
+        <div className="relative h-full flex flex-col justify-center items-center text-center px-4 md:px-6">
+          <span className="text-white/50 text-[9px] md:text-[11px] uppercase tracking-[0.8em] md:tracking-[1em] mb-6 md:mb-10 font-bold">{t[lang].hero.subtitle}</span>
+          {/* 这里修复了重叠问题，使用了自适应字号和合适的行高 leading-[1.1] */}
+          <h1 className="text-5xl sm:text-7xl md:text-[8rem] lg:text-[10rem] text-white font-light tracking-tighter mb-12 md:mb-16 max-w-7xl leading-[1.15] md:leading-[1.1]">
             {t[lang].hero.title}
           </h1>
-          <div className="flex flex-col md:flex-row gap-6 md:gap-10 mt-4 md:mt-0">
-            <a href="#portfolio" className="px-12 md:px-16 py-6 md:py-7 bg-white text-black uppercase tracking-[0.5em] text-[10px] md:text-[11px] font-black hover:bg-slate-200 transition-all shadow-2xl">{t[lang].hero.btn1}</a>
-            <a href="#land" className="px-12 md:px-16 py-6 md:py-7 bg-transparent border-2 border-white/40 text-white uppercase tracking-[0.5em] text-[10px] md:text-[11px] font-black hover:bg-white hover:text-black transition-all">{t[lang].hero.btn2}</a>
+          <div className="flex flex-col sm:flex-row gap-4 md:gap-10 w-full sm:w-auto px-6">
+            <a href="#portfolio" className="w-full sm:w-auto px-8 md:px-16 py-5 md:py-7 bg-white text-black uppercase tracking-[0.4em] md:tracking-[0.5em] text-[10px] md:text-[11px] font-black hover:bg-slate-200 transition-all shadow-2xl text-center">{t[lang].hero.btn1}</a>
+            <a href="#land" className="w-full sm:w-auto px-8 md:px-16 py-5 md:py-7 bg-transparent border-2 border-white/40 text-white uppercase tracking-[0.4em] md:tracking-[0.5em] text-[10px] md:text-[11px] font-black hover:bg-white hover:text-black transition-all text-center">{t[lang].hero.btn2}</a>
           </div>
         </div>
       </section>
 
       {/* --- Philosophy Section --- */}
-      <section id="philosophy" className="py-40 px-6 md:px-16 bg-white flex flex-col items-center text-center">
+      <section id="philosophy" className="py-32 md:py-40 px-6 md:px-16 bg-white flex flex-col items-center text-center">
          <div className="max-w-4xl mx-auto">
-            <span className="text-[10px] uppercase tracking-[0.6em] text-slate-400 block mb-10 font-black">{t[lang].philosophy.tag}</span>
-            <h2 className="text-5xl md:text-6xl font-light tracking-tighter mb-16 leading-tight text-slate-900">{t[lang].philosophy.title}</h2>
-            <div className="w-12 h-px bg-slate-300 mx-auto mb-16"></div>
-            <p className={`text-slate-500 font-light leading-relaxed mx-auto ${lang === 'zh' ? 'text-xl md:text-2xl text-justify md:text-center' : 'text-2xl md:text-3xl'}`}>
+            <span className="text-[10px] uppercase tracking-[0.6em] text-slate-400 block mb-8 md:mb-10 font-black">{t[lang].philosophy.tag}</span>
+            <h2 className="text-4xl md:text-6xl font-light tracking-tighter mb-10 md:mb-16 leading-tight text-slate-900">{t[lang].philosophy.title}</h2>
+            <div className="w-12 h-px bg-slate-300 mx-auto mb-10 md:mb-16"></div>
+            <p className={`text-slate-500 font-light leading-relaxed mx-auto ${lang === 'zh' ? 'text-lg md:text-2xl text-justify md:text-center' : 'text-xl md:text-3xl'}`}>
               {t[lang].philosophy.text}
             </p>
          </div>
       </section>
 
       {/* --- Market Presence (Map) --- */}
-      <section id="map" className="py-40 px-6 md:px-16 bg-slate-50">
+      <section id="map" className="py-32 md:py-40 px-6 md:px-16 bg-slate-50">
         <div className="max-w-7xl mx-auto">
-          <div className="flex flex-col md:flex-row justify-between items-end mb-24 gap-12">
+          <div className="flex flex-col md:flex-row justify-between items-end mb-16 md:mb-24 gap-8 md:gap-12">
             <div className="max-w-3xl text-left">
-              <span className="text-[10px] uppercase tracking-[0.6em] text-slate-400 block mb-8 font-black underline underline-offset-[12px]">{t[lang].map.tag}</span>
-              <h2 className="text-6xl md:text-7xl font-light tracking-tighter mb-10 leading-none">{t[lang].map.title}</h2>
-              <p className="text-slate-500 text-xl font-light leading-relaxed">{t[lang].map.text}</p>
+              <span className="text-[10px] uppercase tracking-[0.6em] text-slate-400 block mb-6 md:mb-8 font-black underline underline-offset-[12px]">{t[lang].map.tag}</span>
+              <h2 className="text-4xl md:text-7xl font-light tracking-tighter mb-6 md:mb-10 leading-tight">{t[lang].map.title}</h2>
+              <p className="text-slate-500 text-lg md:text-xl font-light leading-relaxed">{t[lang].map.text}</p>
             </div>
           </div>
-          <div className="relative aspect-[21/9] w-full bg-white rounded-sm overflow-hidden border border-slate-200 shadow-2xl">
+          
+          {/* 精美的手绘大西雅图地区概念底图 */}
+          <div className="relative aspect-[4/5] sm:aspect-[4/3] md:aspect-[21/9] w-full bg-[#f8fafc] rounded-sm overflow-hidden border border-slate-200 shadow-2xl">
+            {/* SVG Background Map */}
+            <div className="absolute inset-0 z-0">
+              <svg viewBox="0 0 1000 500" className="w-full h-full object-cover opacity-80" preserveAspectRatio="xMidYMid slice">
+                {/* Subtle Grid / Streets Pattern */}
+                <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+                  <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#e2e8f0" strokeWidth="0.5"/>
+                </pattern>
+                <rect width="1000" height="500" fill="url(#grid)" />
+                
+                {/* Puget Sound (Left edge) */}
+                <path d="M-50,0 L150,0 C120,100 200,200 150,300 C100,400 180,450 150,550 L-50,550 Z" fill="#e2e8f0" />
+                
+                {/* Lake Washington (Center right) */}
+                <path d="M480,-50 C520,50 540,150 520,250 C500,350 530,450 510,550 L600,550 C620,450 600,350 630,250 C660,150 580,50 560,-50 Z" fill="#e2e8f0" />
+                
+                {/* Mercer Island (Inside Lake Washington) */}
+                <path d="M525,280 C540,270 560,320 545,380 C530,440 515,360 525,280 Z" fill="#f8fafc" />
+                
+                {/* Lake Union (Small blob left of Lake WA) */}
+                <path d="M400,180 C430,170 450,190 460,220 C450,230 410,210 400,180 Z" fill="#e2e8f0" />
+
+                {/* Geographic Typography Labels */}
+                <text x="320" y="250" fill="#94a3b8" fontSize="20" letterSpacing="12" fontWeight="bold" textAnchor="middle" className="hidden md:block">SEATTLE</text>
+                <text x="750" y="250" fill="#94a3b8" fontSize="20" letterSpacing="12" fontWeight="bold" textAnchor="middle" className="hidden md:block">BELLEVUE</text>
+                
+                {/* Mobile version labels */}
+                <text x="320" y="250" fill="#94a3b8" fontSize="14" letterSpacing="6" fontWeight="bold" textAnchor="middle" className="block md:hidden">SEATTLE</text>
+                <text x="750" y="250" fill="#94a3b8" fontSize="14" letterSpacing="6" fontWeight="bold" textAnchor="middle" className="block md:hidden">BELLEVUE</text>
+
+                {/* Vertical text for Lake Washington */}
+                <text x="560" y="250" fill="#cbd5e1" fontSize="12" letterSpacing="8" fontWeight="bold" textAnchor="middle" transform="rotate(90 560 250)">LAKE WASHINGTON</text>
+              </svg>
+            </div>
+
+            {/* Pins Layer */}
             {projects.map((proj) => (
               <div 
                 key={proj.id} 
@@ -249,50 +290,46 @@ const App = () => {
                 style={{ top: proj.mapPos.top, left: proj.mapPos.left }}
                 onClick={() => setSelectedProject(proj)}
               >
-                <div className="w-6 h-6 bg-slate-900 rounded-full absolute -inset-0 animate-ping opacity-10"></div>
-                <div className="w-6 h-6 bg-slate-900 rounded-full relative z-10 border-[6px] border-white shadow-2xl group-hover/pin:scale-125 transition-transform duration-500"></div>
-                <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-6 bg-white px-8 py-5 shadow-3xl border border-slate-100 opacity-0 group-hover/pin:opacity-100 transition-all translate-y-4 group-hover/pin:translate-y-0 whitespace-nowrap z-30">
-                  <span className="text-[12px] uppercase tracking-[0.4em] font-black block mb-2">{proj[lang].name}</span>
-                  <span className="text-[10px] text-slate-400 uppercase tracking-widest">{proj[lang].status}</span>
+                <div className="w-5 h-5 md:w-6 md:h-6 bg-slate-900 rounded-full absolute -inset-0 animate-ping opacity-10"></div>
+                <div className="w-5 h-5 md:w-6 md:h-6 bg-slate-900 rounded-full relative z-10 border-[4px] md:border-[6px] border-white shadow-2xl group-hover/pin:scale-125 transition-transform duration-500"></div>
+                
+                {/* Tooltip */}
+                <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-4 md:mb-6 bg-white px-6 md:px-8 py-4 md:py-5 shadow-3xl border border-slate-100 opacity-0 group-hover/pin:opacity-100 transition-all translate-y-4 group-hover/pin:translate-y-0 whitespace-nowrap z-30 pointer-events-none">
+                  <span className="text-[10px] md:text-[12px] uppercase tracking-[0.4em] font-black block mb-2">{proj[lang].name}</span>
+                  <span className="text-[9px] md:text-[10px] text-slate-400 uppercase tracking-widest">{proj[lang].status}</span>
                 </div>
               </div>
             ))}
-            <div className="absolute inset-0 opacity-[0.03] pointer-events-none">
-              <svg viewBox="0 0 1000 400" className="w-full h-full object-cover">
-                <path d="M0,200 Q250,100 500,200 T1000,200" fill="none" stroke="#000" strokeWidth="2" />
-                <circle cx="500" cy="200" r="300" fill="none" stroke="#000" strokeWidth="1" />
-              </svg>
-            </div>
           </div>
         </div>
       </section>
 
       {/* --- Portfolio Grid --- */}
-      <section id="portfolio" className="py-40 px-6 md:px-16 bg-white">
+      <section id="portfolio" className="py-32 md:py-40 px-6 md:px-16 bg-white">
         <div className="max-w-7xl mx-auto">
-          <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-24 md:mb-32 border-b border-slate-100 pb-16 md:pb-20 gap-8">
+          <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-16 md:mb-32 border-b border-slate-100 pb-12 md:pb-20 gap-8">
             <div className="text-left">
-              <span className="text-[10px] uppercase tracking-[0.6em] text-slate-400 block mb-8 font-black">{t[lang].portfolio.tag}</span>
-              <h2 className="text-6xl md:text-8xl font-light tracking-tighter leading-none">{t[lang].portfolio.title}</h2>
+              <span className="text-[10px] uppercase tracking-[0.6em] text-slate-400 block mb-6 md:mb-8 font-black">{t[lang].portfolio.tag}</span>
+              <h2 className="text-5xl md:text-8xl font-light tracking-tighter leading-tight">{t[lang].portfolio.title}</h2>
             </div>
             <div className="flex items-center space-x-4 text-slate-300">
-               <span className="text-[10px] uppercase tracking-widest font-bold">{t[lang].portfolio.subtitle}</span>
+               <span className="text-[9px] md:text-[10px] uppercase tracking-widest font-bold">{t[lang].portfolio.subtitle}</span>
                <div className="w-12 md:w-20 h-px bg-slate-200"></div>
             </div>
           </div>
-          <div className="grid md:grid-cols-3 gap-20 text-left">
+          <div className="grid md:grid-cols-3 gap-12 md:gap-20 text-left">
             {projects.map((proj) => (
               <div key={proj.id} className="group cursor-pointer" onClick={() => setSelectedProject(proj)}>
-                <div className="relative aspect-[3/4] overflow-hidden bg-slate-50 mb-12">
+                <div className="relative aspect-[3/4] overflow-hidden bg-slate-50 mb-8 md:mb-12">
                    <div className="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition-all duration-1000 z-10 flex items-center justify-center">
-                      <span className="px-8 py-4 bg-white text-black text-[11px] uppercase tracking-[0.5em] font-black opacity-0 group-hover:opacity-100 transition-all duration-700 transform translate-y-10 group-hover:translate-y-0">{t[lang].portfolio.view}</span>
+                      <span className="px-6 md:px-8 py-3 md:py-4 bg-white text-black text-[10px] md:text-[11px] uppercase tracking-[0.5em] font-black opacity-0 group-hover:opacity-100 transition-all duration-700 transform translate-y-10 group-hover:translate-y-0">{t[lang].portfolio.view}</span>
                   </div>
                   <img src={proj.image} className="w-full h-full object-cover transition-all duration-1000 scale-100 group-hover:scale-110" alt={proj[lang].name} onError={handleImageError} />
                 </div>
-                <div className="space-y-6">
-                  <span className="text-[10px] uppercase tracking-[0.5em] text-slate-400 block font-bold">{proj[lang].type}</span>
-                  <h3 className="text-3xl md:text-4xl font-light tracking-tight group-hover:text-slate-500 transition-colors leading-tight">{proj[lang].name}</h3>
-                  <div className="flex items-center text-slate-400 text-[11px] pt-4 md:pt-6 uppercase tracking-[0.3em] font-bold"><MapPin size={14} className="mr-4 text-slate-300" /> {proj[lang].location}</div>
+                <div className="space-y-4 md:space-y-6">
+                  <span className="text-[9px] md:text-[10px] uppercase tracking-[0.5em] text-slate-400 block font-bold">{proj[lang].type}</span>
+                  <h3 className="text-2xl md:text-4xl font-light tracking-tight group-hover:text-slate-500 transition-colors leading-tight">{proj[lang].name}</h3>
+                  <div className="flex items-center text-slate-400 text-[10px] md:text-[11px] pt-2 md:pt-6 uppercase tracking-[0.3em] font-bold"><MapPin size={14} className="mr-3 md:mr-4 text-slate-300" /> {proj[lang].location}</div>
                 </div>
               </div>
             ))}
@@ -301,41 +338,41 @@ const App = () => {
       </section>
 
       {/* --- Land Intake Section --- */}
-      <section id="land" className="py-48 px-6 md:px-16 bg-slate-900 text-white text-center relative overflow-hidden">
-        <div className="absolute top-0 right-0 w-1/3 h-full bg-white/5 skew-x-12 translate-x-48"></div>
+      <section id="land" className="py-32 md:py-48 px-6 md:px-16 bg-slate-900 text-white text-center relative overflow-hidden">
+        <div className="absolute top-0 right-0 w-full md:w-1/3 h-full bg-white/5 skew-x-0 md:skew-x-12 md:translate-x-48"></div>
         <div className="max-w-5xl mx-auto relative z-10">
-          <span className="text-white/40 text-[10px] uppercase tracking-[1em] mb-12 block font-bold">{t[lang].land.tag}</span>
-          <h2 className="text-5xl md:text-[8rem] font-light mb-16 tracking-tighter leading-[1] md:leading-[0.85]">{t[lang].land.title}</h2>
-          <p className="text-white/50 text-xl md:text-2xl mb-24 max-w-3xl mx-auto font-light leading-relaxed">{t[lang].land.text}</p>
-          <button className="px-12 md:px-20 py-6 md:py-8 bg-white text-black uppercase tracking-[0.5em] text-[10px] md:text-[12px] font-black hover:bg-slate-200 transition-all shadow-3xl">{t[lang].land.btn}</button>
+          <span className="text-white/40 text-[9px] md:text-[10px] uppercase tracking-[0.8em] md:tracking-[1em] mb-8 md:mb-12 block font-bold">{t[lang].land.tag}</span>
+          <h2 className="text-4xl md:text-[8rem] font-light mb-10 md:mb-16 tracking-tighter leading-tight md:leading-[0.85]">{t[lang].land.title}</h2>
+          <p className="text-white/50 text-lg md:text-2xl mb-16 md:mb-24 max-w-3xl mx-auto font-light leading-relaxed">{t[lang].land.text}</p>
+          <button className="px-10 md:px-20 py-5 md:py-8 bg-white text-black uppercase tracking-[0.4em] md:tracking-[0.5em] text-[10px] md:text-[12px] font-black hover:bg-slate-200 transition-all shadow-3xl">{t[lang].land.btn}</button>
         </div>
       </section>
 
       {/* --- Footer --- */}
-      <footer className="py-24 md:py-32 px-6 md:px-16 bg-white border-t border-slate-100">
-        <div className="max-w-7xl mx-auto grid md:grid-cols-4 gap-16 md:gap-24 text-left">
+      <footer className="py-20 md:py-32 px-6 md:px-16 bg-white border-t border-slate-100">
+        <div className="max-w-7xl mx-auto grid md:grid-cols-4 gap-12 md:gap-24 text-left">
           <div className="col-span-1 md:col-span-2">
-            <div className="text-3xl font-bold tracking-tighter uppercase mb-12 flex items-center gap-6">
-               <svg width="40" height="30" viewBox="0 0 40 30" fill="none" className="stroke-black"><path d="M2 28V18L12 12V2L22 8V20L38 24V28" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/></svg>
+            <div className="text-2xl md:text-3xl font-bold tracking-tighter uppercase mb-8 md:mb-12 flex items-center gap-4 md:gap-6">
+               <svg width="30" height="22" viewBox="0 0 40 30" fill="none" className="stroke-black md:w-[40px] md:h-[30px]"><path d="M2 28V18L12 12V2L22 8V20L38 24V28" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/></svg>
                Westwood
             </div>
-            <p className="text-slate-400 text-xs leading-[2.5] uppercase tracking-[0.3em] font-bold max-w-md">{t[lang].footer.desc}</p>
+            <p className="text-slate-400 text-[10px] md:text-xs leading-[2.5] uppercase tracking-[0.3em] font-bold max-w-md">{t[lang].footer.desc}</p>
           </div>
           <div>
-            <h4 className="text-[10px] uppercase tracking-[0.6em] font-black text-slate-300 mb-12">{t[lang].footer.nav}</h4>
-            <ul className="space-y-6 text-[11px] font-black tracking-[0.4em] uppercase">
+            <h4 className="text-[10px] uppercase tracking-[0.6em] font-black text-slate-300 mb-8 md:mb-12">{t[lang].footer.nav}</h4>
+            <ul className="space-y-4 md:space-y-6 text-[10px] md:text-[11px] font-black tracking-[0.4em] uppercase">
               {navItems.map(item => <li key={item.key}><a href={item.href} className="hover:opacity-30 transition-all">{t[lang].nav[item.key]}</a></li>)}
             </ul>
           </div>
           <div>
-             <h4 className="text-[10px] uppercase tracking-[0.6em] font-black text-slate-300 mb-12">{t[lang].footer.hq}</h4>
-             <div className="text-[11px] font-bold tracking-[0.4em] uppercase space-y-8 leading-loose">
+             <h4 className="text-[10px] uppercase tracking-[0.6em] font-black text-slate-300 mb-8 md:mb-12">{t[lang].footer.hq}</h4>
+             <div className="text-[10px] md:text-[11px] font-bold tracking-[0.4em] uppercase space-y-6 md:space-y-8 leading-loose">
                 <p className="text-slate-500">Bellevue, WA 98004 <br/>United States</p>
                 <p className="border-b-2 border-slate-900 pb-2 inline-block">inquiries@westwood.com</p>
              </div>
           </div>
         </div>
-        <div className="max-w-7xl mx-auto mt-24 md:mt-40 pt-12 border-t border-slate-50 text-[9px] uppercase tracking-[0.5em] text-slate-300 flex flex-col md:flex-row justify-between gap-6 md:gap-0">
+        <div className="max-w-7xl mx-auto mt-16 md:mt-40 pt-8 md:pt-12 border-t border-slate-50 text-[8px] md:text-[9px] uppercase tracking-[0.4em] md:tracking-[0.5em] text-slate-300 flex flex-col md:flex-row justify-between gap-6 md:gap-0">
           <span>{t[lang].footer.rights}</span>
           <span className="flex gap-6 md:gap-10">
             {t[lang].footer.links.map((link, i) => <a key={i} className="cursor-pointer hover:text-slate-500">{link}</a>)}
