@@ -51,14 +51,23 @@ const App = () => {
     },
     {
       id: 2,
-      name: 'Bellevue Heights',
-      location: 'Bellevue, WA',
-      status: 'Active Development',
-      type: 'Luxury Estate',
-      description: 'An upcoming luxury single-family residence featuring high-end smart home technology and custom artisanal masonry.',
-      highlights: ['Smart Home System', 'Bespoke Masonry', 'Privacy Landscaping'],
-      mapPos: { top: '45%', left: '55%' },
-      image: 'https://images.unsplash.com/photo-1600566753190-17f0bb2a6c3e?auto=format&fit=crop&q=80&w=1200'
+      name: '6020 Oberlin Ave NE',
+      location: 'Seattle, WA 98115',
+      status: 'Sold at $3.1M (Sept 2023)',
+      type: 'Single Family',
+      description: 'A classic luxury residence in the desirable Hawthorne Hill neighborhood. This meticulously crafted 5-bedroom, 5-bathroom home features premium Sub-zero and Wolf appliances, heated bathroom floors, and an integrated sound system. Perfectly situated near top-tier dining and everyday conveniences with a built-in outdoor BBQ for seamless entertaining.',
+      highlights: ['Premium Appliances', 'Heated Bathroom Floors', 'Smart Home Integration', 'Hawthorne Hill Location'],
+      mapPos: { top: '35%', left: '38%' },
+      image: '/6020 Oberlin.jpg',
+      gallery: [
+        '/6020 Oberlin.jpg',
+        '/6020 Oberlin 1.jpg',
+        '/6020 Oberlin 2.jpg',
+        '/6020 Oberlin 3.jpg',
+        '/6020 Oberlin4.jpg',
+        '/6020 Oberlin 5.jpg',
+        '/6020 Oberlin 6.jpg'
+      ]
     },
     {
       id: 3,
@@ -69,8 +78,8 @@ const App = () => {
       description: 'A flagship development in South Seattle, designed for modern urban professionals. This project emphasizes vertical living with massive floor-to-ceiling windows and premium rooftop spaces. The interior flow is optimized for natural light and contemporary art displays.',
       highlights: ['Lake Washington Views', 'Rooftop Entertaining', 'Modern Aesthetic', 'Eco-friendly Siding'],
       mapPos: { top: '65%', left: '42%' },
-      image: '/321 MLK JR Way S.png',
-      gallery: ['/321 MLK JR Way S.png', '/321 MLK JR Way S 2.png']
+      image: '/321 MLK JR Way S.jpg',
+      gallery: ['/321 MLK JR Way S.jpg', '/321 MLK JR Way S 2.jpg']
     }
   ];
 
