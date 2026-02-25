@@ -66,7 +66,7 @@ const App = () => {
   const projects = [
     {
       id: 1,
-      mapPos: { top: '78%', left: '63%' },
+      mapPos: { top: '77%', left: '61%' },
       image: '/12811 SE 44th Pl.jpg',
       gallery: [
         '/12811 SE 44th Pl.jpg', '/12811 SE 44th Pl 1.jpg', '/12811 SE 44th Pl 2.jpg', '/12811 SE 44th Pl 3.jpg', 
@@ -85,7 +85,7 @@ const App = () => {
     },
     {
       id: 2,
-      mapPos: { top: '25%', left: '44%' },
+      mapPos: { top: '23%', left: '42%' },
       image: '/6020 Oberlin.jpg',
       gallery: [
         '/6020 Oberlin.jpg', '/6020 Oberlin 1.jpg', '/6020 Oberlin 2.jpg', '/6020 Oberlin 3.jpg',
@@ -104,7 +104,7 @@ const App = () => {
     },
     {
       id: 3,
-      mapPos: { top: '64%', left: '43%' },
+      mapPos: { top: '60%', left: '41%' },
       image: '/321 MLK JR Way S.png',
       gallery: ['/321 MLK JR Way S.png', '/321 MLK JR Way S 2.png'],
       en: {
@@ -385,3 +385,4 @@ const App = () => {
 };
 
 export default App;
+
