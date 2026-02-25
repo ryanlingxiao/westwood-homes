@@ -163,8 +163,13 @@ const App = () => {
 
       {/* --- Hero Section --- */}
       <section className="relative h-screen w-full overflow-hidden bg-black">
-        <div className="absolute inset-0 opacity-60">
-          <img src="/321 MLK JR Way S.png" className="w-full h-full object-cover scale-105" alt="Westwood Architecture" onError={handleImageError} />
+        <div className="absolute inset-0 opacity-60 pointer-events-none">
+          <iframe
+            src="https://player.vimeo.com/video/1167277855?background=1"
+            className="absolute top-1/2 left-1/2 w-[100vw] h-[56.25vw] min-h-screen min-w-[177.77vh] -translate-x-1/2 -translate-y-1/2"
+            frameBorder="0"
+            allow="autoplay; fullscreen"
+          ></iframe>
         </div>
         <div className="relative h-full flex flex-col justify-center items-center text-center px-6">
           <span className="text-white/50 text-[10px] uppercase tracking-[1em] mb-10 font-bold">Pacific Northwest Premier Developer</span>
@@ -199,22 +204,26 @@ const App = () => {
                 <div className="w-6 h-6 bg-slate-900 rounded-full absolute -inset-0 animate-ping opacity-10"></div>
                 <div className="w-6 h-6 bg-slate-900 rounded-full relative z-10 border-[6px] border-white shadow-2xl group-hover/pin:scale-125 transition-transform duration-500"></div>
                 <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-6 bg-white px-8 py-5 shadow-3xl border border-slate-100 opacity-0 group-hover/pin:opacity-100 transition-all translate-y-4 group-hover/pin:translate-y-0 whitespace-nowrap z-30">
-                  <span className="text-[12px] uppercase tracking-[0.4em] font-black block mb-2">{proj.name}</span>
-                  <span className="text-[10px] text-slate-400 uppercase tracking-widest">{proj.status}</span>
-                </div>
+                <span className="text-[12px] uppercase tracking-[0.4em] font-black block mb-2">{proj.name}</span>
+                <span className="text-[10px] text-slate-400 uppercase tracking-widest">{proj.status}</span>
               </div>
-            ))}
-          </div>
+            </div>
+          ))}
         </div>
-      </section>
+      </div>
+    </section>
 
-      {/* Portfolio Section */}
-      <section id="portfolio" className="py-40 px-6 md:px-16 bg-white">
-        <div className="max-w-7xl mx-auto text-left">
-          <div className="flex justify-between items-end mb-32 border-b border-slate-100 pb-20">
+    {/* --- Portfolio Grid --- */}
+    <section id="portfolio" className="py-40 px-6 md:px-16 bg-white">
+      <div className="max-w-7xl mx-auto">
+        <div className="flex justify-between items-end mb-32 border-b border-slate-100 pb-20">
             <div>
               <span className="text-[10px] uppercase tracking-[0.6em] text-slate-400 block mb-8 font-black">Curated Collection</span>
               <h2 className="text-8xl font-light tracking-tighter leading-none">The Portfolio</h2>
+            </div>
+            <div className="flex items-center space-x-4 text-slate-300">
+               <span className="text-[10px] uppercase tracking-widest font-bold">Boutique Developments</span>
+               <div className="w-20 h-px bg-slate-200"></div>
             </div>
           </div>
           <div className="grid md:grid-cols-3 gap-20 text-left">
@@ -224,7 +233,7 @@ const App = () => {
                    <div className="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition-all duration-1000 z-10 flex items-center justify-center">
                       <span className="px-8 py-4 bg-white text-black text-[11px] uppercase tracking-[0.5em] font-black opacity-0 group-hover:opacity-100 transition-all duration-700 transform translate-y-10 group-hover:translate-y-0">View Project</span>
                   </div>
-                  <img src={proj.image} className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-1000 scale-100 group-hover:scale-110" alt={proj.name} onError={handleImageError} />
+                  <img src={proj.image} className="w-full h-full object-cover transition-all duration-1000 scale-100 group-hover:scale-110" alt={proj.name} onError={handleImageError} />
                 </div>
                 <div className="space-y-6">
                   <span className="text-[10px] uppercase tracking-[0.5em] text-slate-400 block font-bold">{proj.type}</span>
