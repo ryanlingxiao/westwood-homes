@@ -103,6 +103,7 @@ const App = () => {
   const projects = [
     {
       id: 1,
+      isMarket: true, // 标记为在售
       coordinates: { lat: 47.565810, lng: -122.169190 }, 
       image: '/12811 SE 44th Pl.jpg',
       gallery: [
@@ -111,17 +112,20 @@ const App = () => {
       ],
       en: {
         name: '12811 SE 44th Pl', location: 'Bellevue, WA 98006', status: 'On Market', type: 'Single Family',
+        shortStatus: 'On Market - $3,380,000',
         description: '4,040 sqft, modern single family luxury home.',
         highlights: ['Open floorplan', 'Luxury finish', 'Somerset schools', 'Plenty of natural light']
       },
       zh: {
         name: '12811 SE 44th Pl', location: 'Bellevue, WA 98006', status: '现房在售', type: '独栋别墅',
+        shortStatus: '现房在售 - $3,380,000',
         description: '4,040平方英尺，现代奢华独栋别墅。',
         highlights: ['开放式布局', '奢华装潢', '萨默塞特学区', '采光充足']
       }
     },
     {
       id: 2,
+      isMarket: true, // 标记为在售
       coordinates: { lat: 47.575931, lng: -122.382033 }, 
       image: '/3054 Fairmont Ave SW.jpg',
       gallery: [
@@ -130,17 +134,20 @@ const App = () => {
       ],
       en: {
         name: '3054 Fairmont Ave SW', location: 'Seattle, WA 98116', status: 'Finished in 2025, On Market', type: 'West Seattle ADU',
+        shortStatus: 'On Market - $699,950',
         description: 'An exceptional opportunity to own a stylish, modern standalone new home in West Seattle’s coveted Admiral district. Nestled on a quiet residential block, this street-facing home offers its own driveway for convenient parking and is just a short walk to local schools, PCC, and Metropolitan Market. Enjoy being minutes from Alki Beach with quick access to I-5 and downtown Seattle. The bright main floor features an open kitchen and living area, powder room, in-ceiling speakers, and a pre-wired in-wall iPad control system for seamless modern living.',
         highlights: ['Admiral District', 'Private Driveway', 'Smart Home Ready', 'Open Concept']
       },
       zh: {
         name: '3054 Fairmont Ave SW', location: 'Seattle, WA 98116', status: '2025年完工, 现房在售', type: '西雅图西部独立住宅',
+        shortStatus: '现房在售 - $699,950',
         description: '这是在西雅图西部备受追捧的Admiral社区拥有时尚现代独立新房的绝佳机会。这座临街住宅坐落在一个安静的街区，拥有专属的私人车道，步行即可到达当地学校、PCC 和大都会市场。距离Alki海滩仅几分钟路程，并可快速驶入I-5公路前往市中心。明亮的主楼层设有开放式厨房和起居区、化妆间、吸顶式扬声器，以及预装的入墙式iPad智能控制系统，带来无缝的现代生活体验。',
         highlights: ['尊贵社区位置', '专属私人车道', '全屋智能预装', '通透开放布局']
       }
     },
     {
       id: 3,
+      isSold: true, // 标记为已售
       coordinates: { lat: 47.673010, lng: -122.298260 },
       image: '/6020 Oberlin.jpg',
       gallery: [
@@ -149,11 +156,13 @@ const App = () => {
       ],
       en: {
         name: '6020 Oberlin Ave NE', location: 'Seattle, WA 98115', status: 'Sold at $3.1M (Sept 2023)', type: 'Single Family',
+        shortStatus: 'Sold at $3.1M',
         description: 'A classic luxury residence in the desirable Hawthorne Hill neighborhood. This meticulously crafted 5-bedroom, 5-bathroom home features premium Sub-zero and Wolf appliances, heated bathroom floors, and an integrated sound system. Perfectly situated near top-tier dining and everyday conveniences with a built-in outdoor BBQ for seamless entertaining.',
         highlights: ['Premium Appliances', 'Heated Bathroom Floors', 'Smart Home Integration', 'Hawthorne Hill Location']
       },
       zh: {
         name: '6020 Oberlin Ave NE', location: 'Seattle, WA 98115', status: '已售出 $3.1M (2023年9月)', type: '独栋别墅',
+        shortStatus: '已售出 $3.1M',
         description: '位于备受追捧的 Hawthorne Hill 社区的经典豪华住宅。这座精心打造的5卧5卫住宅配备了顶级的 Sub-zero 和 Wolf 电器、浴室地暖以及集成音响系统。位置优越，靠近顶级餐厅和便利设施，并配有嵌入式户外烧烤架，是家庭生活与娱乐的完美居所。',
         highlights: ['顶级厨房电器', '奢华浴室地暖', '全屋智能系统', '稀缺优质地段']
       }
@@ -232,13 +241,19 @@ const App = () => {
         const div = document.createElement('div');
         div.className = "transition-all duration-700 cursor-pointer z-20 group/pin absolute";
         div.style.transform = "translate(-50%, -50%)";
+
+        // 如果项目在售，图钉使用翠绿色 (emerald-500)，否则使用高级灰 (slate-900)
+        const markerColor = proj.isMarket ? "bg-emerald-500" : "bg-slate-900";
+        // 浮层显示优先展示短售价信息，如果没有则显示原状态
+        const displayStatus = proj[lang].shortStatus || proj[lang].status;
+
         div.innerHTML = `
-          <div class="w-5 h-5 md:w-6 md:h-6 bg-slate-900 rounded-full absolute -inset-0 animate-ping opacity-10"></div>
-          <div class="w-5 h-5 md:w-6 md:h-6 bg-slate-900 rounded-full relative z-10 border-[4px] md:border-[6px] border-white shadow-2xl group-hover/pin:scale-125 transition-transform duration-500"></div>
+          <div class="w-5 h-5 md:w-6 md:h-6 ${markerColor} rounded-full absolute -inset-0 animate-ping opacity-20"></div>
+          <div class="w-5 h-5 md:w-6 md:h-6 ${markerColor} rounded-full relative z-10 border-[4px] md:border-[6px] border-white shadow-2xl group-hover/pin:scale-125 transition-transform duration-500"></div>
           
           <div class="absolute bottom-full left-1/2 -translate-x-1/2 mb-4 md:mb-6 bg-white px-6 md:px-8 py-4 md:py-5 shadow-3xl border border-slate-100 opacity-0 group-hover/pin:opacity-100 transition-all translate-y-4 group-hover/pin:translate-y-0 whitespace-nowrap z-30 pointer-events-none">
             <span class="text-[10px] md:text-[12px] uppercase tracking-[0.4em] font-black block mb-2">${proj[lang].name}</span>
-            <span class="text-[9px] md:text-[10px] text-slate-400 uppercase tracking-widest">${proj[lang].status}</span>
+            <span class="text-[9px] md:text-[10px] ${proj.isMarket ? 'text-emerald-600' : 'text-slate-400'} uppercase tracking-widest font-bold">${displayStatus}</span>
           </div>
         `;
         div.addEventListener('click', () => setSelectedProject(proj));
@@ -298,7 +313,9 @@ const App = () => {
                 </div>
               </div>
               <div className="lg:w-2/5 p-8 lg:p-24 flex flex-col justify-center">
-                <span className="text-[10px] uppercase tracking-[0.5em] text-slate-400 block mb-6 md:mb-8 font-bold">{selectedProject[lang].status}</span>
+                <span className={`text-[10px] uppercase tracking-[0.5em] block mb-6 md:mb-8 font-bold ${selectedProject.isMarket ? 'text-emerald-600' : 'text-slate-400'}`}>
+                  {selectedProject[lang].shortStatus || selectedProject[lang].status}
+                </span>
                 <h2 className="text-4xl md:text-5xl font-light mb-6 md:mb-8 tracking-tighter leading-tight">{selectedProject[lang].name}</h2>
                 <div className="flex items-center text-slate-500 text-[10px] mb-8 md:mb-12 tracking-[0.3em] uppercase font-bold">
                   <MapPin size={16} className="mr-3 text-slate-300" /> {selectedProject[lang].location}
@@ -440,6 +457,19 @@ const App = () => {
                 <div className="space-y-4 md:space-y-6">
                   <span className="text-[9px] md:text-[10px] uppercase tracking-[0.5em] text-slate-400 block font-bold">{proj[lang].type}</span>
                   <h3 className="text-2xl md:text-4xl font-light tracking-tight group-hover:text-slate-500 transition-colors leading-tight">{proj[lang].name}</h3>
+                  
+                  {/* 新增的动态价格/状态显示区域 */}
+                  {(proj.isMarket || proj.isSold) && (
+                    <div className="flex items-center text-[10px] md:text-[11px] uppercase tracking-[0.2em] font-bold">
+                      {proj.isMarket && (
+                        <span className="w-2 h-2 bg-emerald-500 rounded-full mr-3 animate-pulse shadow-[0_0_8px_rgba(16,185,129,0.6)]"></span>
+                      )}
+                      <span className={proj.isMarket ? 'text-emerald-600' : 'text-slate-500'}>
+                        {proj[lang].shortStatus}
+                      </span>
+                    </div>
+                  )}
+
                   <div className="flex items-center text-slate-400 text-[10px] md:text-[11px] pt-2 md:pt-6 uppercase tracking-[0.3em] font-bold"><MapPin size={14} className="mr-3 md:mr-4 text-slate-300" /> {proj[lang].location}</div>
                 </div>
               </div>
