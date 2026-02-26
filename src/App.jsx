@@ -1,6 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Menu, X, MapPin, ArrowRight } from 'lucide-react';
-import { GoogleMap, useJsApiLoader, OverlayView } from '@react-google-maps/api';
 
 // --- 中英文案配置字典 ---
 const t = {
@@ -62,11 +61,11 @@ const App = () => {
   const [selectedProject, setSelectedProject] = useState(null);
   const [lang, setLang] = useState('en');
 
-  // 初始化 Google Maps 引擎
-  const { isLoaded } = useJsApiLoader({
-    id: 'google-map-script',
-    googleMapsApiKey: "" // 以后在这里填入你的 Google Maps API Key 即可消除水印
-  });
+  // 原生 Google Maps 引用
+  const mapRef = useRef(null);
+  const mapInstanceRef = useRef(null);
+  const markersRef = useRef([]);
+  const [isGoogleLoaded, setIsGoogleLoaded] = useState(false);
 
   const handleImageError = (e) => {
     e.target.onerror = null; 
@@ -79,6 +78,21 @@ const App = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  // 零依赖注入原生 Google Maps 脚本
+  useEffect(() => {
+    if (!window.google) {
+      const script = document.createElement('script');
+      // 注意：未来您可以直接在等号后面加上您的 API Key 来消除水印
+      script.src = `https://maps.googleapis.com/maps/api/js?key=`; 
+      script.async = true;
+      script.defer = true;
+      script.onload = () => setIsGoogleLoaded(true);
+      document.head.appendChild(script);
+    } else {
+      setIsGoogleLoaded(true);
+    }
+  }, []);
+
   const navItems = [
     { key: 'portfolio', href: '#portfolio' },
     { key: 'philosophy', href: '#philosophy' },
@@ -89,7 +103,6 @@ const App = () => {
   const projects = [
     {
       id: 1,
-      // 12811 SE 44th Pl, Bellevue
       coordinates: { lat: 47.565810, lng: -122.169190 }, 
       image: '/12811 SE 44th Pl.jpg',
       gallery: [
@@ -109,7 +122,25 @@ const App = () => {
     },
     {
       id: 2,
-      // 6020 Oberlin Ave NE, Seattle
+      coordinates: { lat: 47.575931, lng: -122.382033 }, 
+      image: '/3054 Fairmont Ave SW.jpg',
+      gallery: [
+        '/3054 Fairmont Ave SW.jpg', '/3054 Fairmont Ave SW 1.png', '/3054 Fairmont Ave SW 2.png', 
+        '/3054 Fairmont Ave SW 3.png', '/3054 Fairmont Ave SW 4.png', '/3054 Fairmont Ave SW 5.png', '/3054 Fairmont Ave SW 6.png'
+      ],
+      en: {
+        name: '3054 Fairmont Ave SW', location: 'Seattle, WA 98116', status: 'Finished in 2025, On Market', type: 'West Seattle ADU',
+        description: 'An exceptional opportunity to own a stylish, modern standalone new home in West Seattle’s coveted Admiral district. Nestled on a quiet residential block, this street-facing home offers its own driveway for convenient parking and is just a short walk to local schools, PCC, and Metropolitan Market. Enjoy being minutes from Alki Beach with quick access to I-5 and downtown Seattle. The bright main floor features an open kitchen and living area, powder room, in-ceiling speakers, and a pre-wired in-wall iPad control system for seamless modern living.',
+        highlights: ['Admiral District', 'Private Driveway', 'Smart Home Ready', 'Open Concept']
+      },
+      zh: {
+        name: '3054 Fairmont Ave SW', location: 'Seattle, WA 98116', status: '2025年完工, 现房在售', type: '西雅图西部独立住宅',
+        description: '这是在西雅图西部备受追捧的Admiral社区拥有时尚现代独立新房的绝佳机会。这座临街住宅坐落在一个安静的街区，拥有专属的私人车道，步行即可到达当地学校、PCC 和大都会市场。距离Alki海滩仅几分钟路程，并可快速驶入I-5公路前往市中心。明亮的主楼层设有开放式厨房和起居区、化妆间、吸顶式扬声器，以及预装的入墙式iPad智能控制系统，带来无缝的现代生活体验。',
+        highlights: ['尊贵社区位置', '专属私人车道', '全屋智能预装', '通透开放布局']
+      }
+    },
+    {
+      id: 3,
       coordinates: { lat: 47.673010, lng: -122.298260 },
       image: '/6020 Oberlin.jpg',
       gallery: [
@@ -128,8 +159,7 @@ const App = () => {
       }
     },
     {
-      id: 3,
-      // 321 MLK Jr Way S, Seattle
+      id: 4,
       coordinates: { lat: 47.599420, lng: -122.296530 },
       image: '/321 MLK JR Way S.png',
       gallery: ['/321 MLK JR Way S.png', '/321 MLK JR Way S 2.png'],
@@ -143,8 +173,106 @@ const App = () => {
         description: '位于西雅图南部的旗舰开发项目，专为现代都市精英设计。该项目强调垂直生活空间，拥有巨大的落地窗和优质的屋顶活动空间。室内动线经过优化，以实现绝佳的自然采光。',
         highlights: ['华盛顿湖景', '屋顶娱乐区', '现代先锋美学', '环保外墙材料']
       }
+    },
+    {
+      id: 5,
+      coordinates: { lat: 47.598552, lng: -122.297606 },
+      image: '/421 MLK JR WAY S.png',
+      gallery: ['/421 MLK JR WAY S.png', '/421 MLK JR WAY S 1.png', '/421 MLK JR WAY S 2.png'],
+      en: {
+        name: '421 MLK Jr Way S', location: 'Seattle, WA 98144', status: 'Finished', type: 'Two Townhome Buildings',
+        description: 'A beautifully finished modern townhouse offering 1,240 square feet of thoughtfully designed living space on a 1,015 square foot lot. Featuring 2 bedrooms and 2.5 bathrooms, this home maximizes space and comfort while offering exceptional urban convenience and a private rooftop retreat.',
+        highlights: ['Convenient Location', 'Abundant Natural Light', 'Exceptional Floor Plan', 'Rooftop Deck']
+      },
+      zh: {
+        name: '421 MLK Jr Way S', location: 'Seattle, WA 98144', status: '已完工', type: '双子联排别墅',
+        description: '一座装修精美的现代联排别墅，在1,015平方英尺的占地上提供了1,240平方英尺精心设计的生活空间。拥有2间卧室和2.5间浴室，该住宅在提供卓越的都市便利性和私人屋顶露台的同时，将空间利用率和居住舒适度提升到了极致。',
+        highlights: ['位置便利', '采光极佳', '优秀户型', '顶楼露台']
+      }
+    },
+    {
+      id: 6,
+      coordinates: { lat: 47.551136, lng: -122.323364 },
+      image: '/720 S Orcas St.png',
+      gallery: ['/720 S Orcas St.png', '/720 S Orcas St 1.png'],
+      en: {
+        name: '720 S Orcas St', location: 'Seattle, WA 98108', status: 'Finished in 2020', type: 'Georgetown Townhouse',
+        description: 'Located in the vibrant Georgetown neighborhood, this well-appointed 1,300 square foot townhouse sits on a 1,325 square foot lot. With 3 bedrooms and 2.5 bathrooms, it perfectly balances modern design efficiency with comfortable daily living, crowned by an expansive rooftop deck.',
+        highlights: ['Convenient Location', 'Great Natural Light', 'Efficient Layout', 'Rooftop Deck']
+      },
+      zh: {
+        name: '720 S Orcas St', location: 'Seattle, WA 98108', status: '2020年完工', type: '乔治城联排别墅',
+        description: '这座设施齐全的1,300平方英尺联排别墅位于充满活力的乔治城（Georgetown）社区，占地1,325平方英尺。拥有3间卧室和2.5间浴室，完美平衡了现代空间设计与舒适的日常生活，并配有宽敞的顶层休闲露台。',
+        highlights: ['位置便利', '采光充足', '经济型优户', '顶楼露台']
+      }
     }
   ];
+
+  // 构建并挂载原生互动地图和图钉
+  useEffect(() => {
+    if (!isGoogleLoaded || !mapRef.current) return;
+
+    if (!mapInstanceRef.current) {
+      mapInstanceRef.current = new window.google.maps.Map(mapRef.current, {
+        center: { lat: 47.6194, lng: -122.2336 },
+        zoom: 11,
+        styles: customMapStyles,
+        disableDefaultUI: true,
+        zoomControl: true,
+        gestureHandling: 'cooperative'
+      });
+    }
+
+    class HTMLMarker extends window.google.maps.OverlayView {
+      constructor(position, proj) {
+        super();
+        this.position = position;
+        this.proj = proj;
+        
+        const div = document.createElement('div');
+        div.className = "transition-all duration-700 cursor-pointer z-20 group/pin absolute";
+        div.style.transform = "translate(-50%, -50%)";
+        div.innerHTML = `
+          <div class="w-5 h-5 md:w-6 md:h-6 bg-slate-900 rounded-full absolute -inset-0 animate-ping opacity-10"></div>
+          <div class="w-5 h-5 md:w-6 md:h-6 bg-slate-900 rounded-full relative z-10 border-[4px] md:border-[6px] border-white shadow-2xl group-hover/pin:scale-125 transition-transform duration-500"></div>
+          
+          <div class="absolute bottom-full left-1/2 -translate-x-1/2 mb-4 md:mb-6 bg-white px-6 md:px-8 py-4 md:py-5 shadow-3xl border border-slate-100 opacity-0 group-hover/pin:opacity-100 transition-all translate-y-4 group-hover/pin:translate-y-0 whitespace-nowrap z-30 pointer-events-none">
+            <span class="text-[10px] md:text-[12px] uppercase tracking-[0.4em] font-black block mb-2">${proj[lang].name}</span>
+            <span class="text-[9px] md:text-[10px] text-slate-400 uppercase tracking-widest">${proj[lang].status}</span>
+          </div>
+        `;
+        div.addEventListener('click', () => setSelectedProject(proj));
+        this.div = div;
+      }
+      
+      onAdd() {
+        this.getPanes().overlayMouseTarget.appendChild(this.div);
+      }
+      
+      draw() {
+        const position = this.getProjection().fromLatLngToDivPixel(this.position);
+        if (position) {
+          this.div.style.left = position.x + 'px';
+          this.div.style.top = position.y + 'px';
+        }
+      }
+      
+      onRemove() {
+        if (this.div.parentNode) {
+          this.div.parentNode.removeChild(this.div);
+        }
+      }
+    }
+
+    // 清除旧的标记，重绘新的标记 (用于中英文切换时更新文字)
+    markersRef.current.forEach(m => m.setMap(null));
+    markersRef.current = projects.map(proj => {
+      const marker = new HTMLMarker(proj.coordinates, proj);
+      marker.setMap(mapInstanceRef.current);
+      return marker;
+    });
+
+  }, [isGoogleLoaded, lang]);
 
   return (
     <div className={`min-h-screen bg-white font-sans text-slate-900 antialiased tracking-tight ${selectedProject ? 'overflow-hidden' : ''}`}>
@@ -263,7 +391,7 @@ const App = () => {
          </div>
       </section>
 
-      {/* --- Market Presence (Interactive Google Map) --- */}
+      {/* --- Market Presence (Native Interactive Google Map) --- */}
       <section id="map" className="py-32 md:py-40 px-6 md:px-16 bg-slate-50">
         <div className="max-w-7xl mx-auto">
           <div className="flex flex-col md:flex-row justify-between items-end mb-16 md:mb-24 gap-8 md:gap-12">
@@ -275,44 +403,11 @@ const App = () => {
           </div>
           
           <div className="relative aspect-[4/5] sm:aspect-[4/3] md:aspect-[21/9] w-full bg-[#e4ebec] rounded-sm overflow-hidden border border-slate-200 shadow-2xl">
-            {isLoaded ? (
-              <GoogleMap
-                mapContainerStyle={{ width: '100%', height: '100%' }}
-                center={{ lat: 47.6194, lng: -122.2336 }} // 位于西雅图和贝尔维尤的中心
-                zoom={11} // 完美覆盖你目前的三个项目
-                options={{
-                  styles: customMapStyles,
-                  disableDefaultUI: true, // 隐藏普通地图的杂乱按钮，保持极简
-                  zoomControl: true, // 保留右下角的缩放按钮
-                  gestureHandling: 'cooperative' // 允许手机端单指滑动页面时不卡在地图里
-                }}
-              >
-                {/* 遍历项目，在真实经纬度上渲染我们的专属黑点特效 */}
-                {projects.map((proj) => (
-                  <OverlayView
-                    key={proj.id}
-                    position={proj.coordinates}
-                    mapPaneName="overlayMouseTarget"
-                  >
-                    <div 
-                      className="transition-all duration-700 cursor-pointer z-20 group/pin"
-                      style={{ transform: 'translate(-50%, -50%)' }} // 确保原点精准对齐坐标
-                      onClick={() => setSelectedProject(proj)}
-                    >
-                      <div className="w-5 h-5 md:w-6 md:h-6 bg-slate-900 rounded-full absolute -inset-0 animate-ping opacity-10"></div>
-                      <div className="w-5 h-5 md:w-6 md:h-6 bg-slate-900 rounded-full relative z-10 border-[4px] md:border-[6px] border-white shadow-2xl group-hover/pin:scale-125 transition-transform duration-500"></div>
-                      
-                      {/* 悬浮框 */}
-                      <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-4 md:mb-6 bg-white px-6 md:px-8 py-4 md:py-5 shadow-3xl border border-slate-100 opacity-0 group-hover/pin:opacity-100 transition-all translate-y-4 group-hover/pin:translate-y-0 whitespace-nowrap z-30 pointer-events-none">
-                        <span className="text-[10px] md:text-[12px] uppercase tracking-[0.4em] font-black block mb-2">{proj[lang].name}</span>
-                        <span className="text-[9px] md:text-[10px] text-slate-400 uppercase tracking-widest">{proj[lang].status}</span>
-                      </div>
-                    </div>
-                  </OverlayView>
-                ))}
-              </GoogleMap>
-            ) : (
-              <div className="w-full h-full flex items-center justify-center bg-slate-100">
+            {/* 这里的 div 将承载原生的 Google Map */}
+            <div ref={mapRef} className="w-full h-full"></div>
+            
+            {!isGoogleLoaded && (
+              <div className="absolute inset-0 flex items-center justify-center bg-slate-100 z-50">
                 <span className="text-[10px] uppercase tracking-[0.3em] font-bold text-slate-400 animate-pulse">Loading Map...</span>
               </div>
             )}
