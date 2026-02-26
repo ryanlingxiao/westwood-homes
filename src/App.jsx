@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Menu, X, MapPin, ArrowRight } from 'lucide-react';
+import { GoogleMap, useJsApiLoader, OverlayView } from '@react-google-maps/api';
 
 // --- 中英文案配置字典 ---
 const t = {
@@ -33,17 +34,39 @@ const t = {
   }
 };
 
+// --- 定制化高级灰 Google Map 滤镜样式 ---
+const customMapStyles = [
+  { featureType: "all", elementType: "geometry.fill", stylers: [{ weight: "2.00" }] },
+  { featureType: "all", elementType: "geometry.stroke", stylers: [{ color: "#9c9c9c" }] },
+  { featureType: "all", elementType: "labels.text", stylers: [{ visibility: "on" }] },
+  { featureType: "landscape", elementType: "all", stylers: [{ color: "#f2f2f2" }] },
+  { featureType: "landscape", elementType: "geometry.fill", stylers: [{ color: "#ffffff" }] },
+  { featureType: "landscape.man_made", elementType: "geometry.fill", stylers: [{ color: "#ffffff" }] },
+  { featureType: "poi", elementType: "all", stylers: [{ visibility: "off" }] },
+  { featureType: "road", elementType: "all", stylers: [{ saturation: -100 }, { lightness: 45 }] },
+  { featureType: "road", elementType: "geometry.fill", stylers: [{ color: "#eeeeee" }] },
+  { featureType: "road", elementType: "labels.text.fill", stylers: [{ color: "#7b7b7b" }] },
+  { featureType: "road", elementType: "labels.text.stroke", stylers: [{ color: "#ffffff" }] },
+  { featureType: "road.highway", elementType: "all", stylers: [{ visibility: "simplified" }] },
+  { featureType: "road.arterial", elementType: "labels.icon", stylers: [{ visibility: "off" }] },
+  { featureType: "transit", elementType: "all", stylers: [{ visibility: "off" }] },
+  { featureType: "water", elementType: "all", stylers: [{ color: "#46bcec" }, { visibility: "on" }] },
+  { featureType: "water", elementType: "geometry.fill", stylers: [{ color: "#e4ebec" }] },
+  { featureType: "water", elementType: "labels.text.fill", stylers: [{ color: "#070707" }] },
+  { featureType: "water", elementType: "labels.text.stroke", stylers: [{ color: "#ffffff" }] }
+];
+
 const App = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [selectedProject, setSelectedProject] = useState(null);
   const [lang, setLang] = useState('en');
 
-  // ==========================================
-  // 【地图定位辅助工具】
-  // 将下方的值改为 false 即可一键隐藏百分比网格
-  // ==========================================
-  const SHOW_DEBUG_GRID = false;
+  // 初始化 Google Maps 引擎
+  const { isLoaded } = useJsApiLoader({
+    id: 'google-map-script',
+    googleMapsApiKey: "" // 以后在这里填入你的 Google Maps API Key 即可消除水印
+  });
 
   const handleImageError = (e) => {
     e.target.onerror = null; 
@@ -66,7 +89,8 @@ const App = () => {
   const projects = [
     {
       id: 1,
-      mapPos: { top: '77%', left: '61%' },
+      // 12811 SE 44th Pl, Bellevue
+      coordinates: { lat: 47.565810, lng: -122.169190 }, 
       image: '/12811 SE 44th Pl.jpg',
       gallery: [
         '/12811 SE 44th Pl.jpg', '/12811 SE 44th Pl 1.jpg', '/12811 SE 44th Pl 2.jpg', '/12811 SE 44th Pl 3.jpg', 
@@ -85,7 +109,8 @@ const App = () => {
     },
     {
       id: 2,
-      mapPos: { top: '23%', left: '42%' },
+      // 6020 Oberlin Ave NE, Seattle
+      coordinates: { lat: 47.673010, lng: -122.298260 },
       image: '/6020 Oberlin.jpg',
       gallery: [
         '/6020 Oberlin.jpg', '/6020 Oberlin 1.jpg', '/6020 Oberlin 2.jpg', '/6020 Oberlin 3.jpg',
@@ -104,7 +129,8 @@ const App = () => {
     },
     {
       id: 3,
-      mapPos: { top: '60%', left: '41%' },
+      // 321 MLK Jr Way S, Seattle
+      coordinates: { lat: 47.599420, lng: -122.296530 },
       image: '/321 MLK JR Way S.png',
       gallery: ['/321 MLK JR Way S.png', '/321 MLK JR Way S 2.png'],
       en: {
@@ -237,7 +263,7 @@ const App = () => {
          </div>
       </section>
 
-      {/* --- Market Presence (Map) --- */}
+      {/* --- Market Presence (Interactive Google Map) --- */}
       <section id="map" className="py-32 md:py-40 px-6 md:px-16 bg-slate-50">
         <div className="max-w-7xl mx-auto">
           <div className="flex flex-col md:flex-row justify-between items-end mb-16 md:mb-24 gap-8 md:gap-12">
@@ -248,59 +274,48 @@ const App = () => {
             </div>
           </div>
           
-          <div className="relative aspect-[4/5] sm:aspect-[4/3] md:aspect-[21/9] w-full bg-[#f8fafc] rounded-sm overflow-hidden border border-slate-200 shadow-2xl">
-            
-            {/* 真实图片底图 */}
-            <div className="absolute inset-0 z-0 bg-slate-200">
-              <img 
-                src="/seattle-map.png" 
-                className="w-full h-full object-cover grayscale opacity-70 mix-blend-multiply" 
-                alt="Seattle Area Map" 
-                onError={(e) => {
-                  e.target.onerror = null;
-                  e.target.src = "https://images.unsplash.com/photo-1524661135-423995f22d0b?auto=format&fit=crop&q=80&w=1200"; 
+          <div className="relative aspect-[4/5] sm:aspect-[4/3] md:aspect-[21/9] w-full bg-[#e4ebec] rounded-sm overflow-hidden border border-slate-200 shadow-2xl">
+            {isLoaded ? (
+              <GoogleMap
+                mapContainerStyle={{ width: '100%', height: '100%' }}
+                center={{ lat: 47.6194, lng: -122.2336 }} // 位于西雅图和贝尔维尤的中心
+                zoom={11} // 完美覆盖你目前的三个项目
+                options={{
+                  styles: customMapStyles,
+                  disableDefaultUI: true, // 隐藏普通地图的杂乱按钮，保持极简
+                  zoomControl: true, // 保留右下角的缩放按钮
+                  gestureHandling: 'cooperative' // 允许手机端单指滑动页面时不卡在地图里
                 }}
-              />
-            </div>
-
-            {/* --- Debug Grid Overlay (10% 间隔) --- */}
-            {SHOW_DEBUG_GRID && (
-              <div className="absolute inset-0 z-10 pointer-events-none">
-                {/* 垂直线 X 轴 (控制 left) */}
-                {[10, 20, 30, 40, 50, 60, 70, 80, 90].map(pct => (
-                  <div key={`v-${pct}`} className="absolute top-0 bottom-0 border-l border-red-500/40 border-dashed flex flex-col justify-between" style={{ left: `${pct}%` }}>
-                    <span className="text-[10px] text-red-600 font-black bg-white/80 px-1 -translate-x-1/2 shadow-sm rounded-sm backdrop-blur-sm">L:{pct}%</span>
-                    <span className="text-[10px] text-red-600 font-black bg-white/80 px-1 -translate-x-1/2 shadow-sm rounded-sm backdrop-blur-sm">L:{pct}%</span>
-                  </div>
+              >
+                {/* 遍历项目，在真实经纬度上渲染我们的专属黑点特效 */}
+                {projects.map((proj) => (
+                  <OverlayView
+                    key={proj.id}
+                    position={proj.coordinates}
+                    mapPaneName="overlayMouseTarget"
+                  >
+                    <div 
+                      className="transition-all duration-700 cursor-pointer z-20 group/pin"
+                      style={{ transform: 'translate(-50%, -50%)' }} // 确保原点精准对齐坐标
+                      onClick={() => setSelectedProject(proj)}
+                    >
+                      <div className="w-5 h-5 md:w-6 md:h-6 bg-slate-900 rounded-full absolute -inset-0 animate-ping opacity-10"></div>
+                      <div className="w-5 h-5 md:w-6 md:h-6 bg-slate-900 rounded-full relative z-10 border-[4px] md:border-[6px] border-white shadow-2xl group-hover/pin:scale-125 transition-transform duration-500"></div>
+                      
+                      {/* 悬浮框 */}
+                      <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-4 md:mb-6 bg-white px-6 md:px-8 py-4 md:py-5 shadow-3xl border border-slate-100 opacity-0 group-hover/pin:opacity-100 transition-all translate-y-4 group-hover/pin:translate-y-0 whitespace-nowrap z-30 pointer-events-none">
+                        <span className="text-[10px] md:text-[12px] uppercase tracking-[0.4em] font-black block mb-2">{proj[lang].name}</span>
+                        <span className="text-[9px] md:text-[10px] text-slate-400 uppercase tracking-widest">{proj[lang].status}</span>
+                      </div>
+                    </div>
+                  </OverlayView>
                 ))}
-                {/* 水平线 Y 轴 (控制 top) */}
-                {[10, 20, 30, 40, 50, 60, 70, 80, 90].map(pct => (
-                  <div key={`h-${pct}`} className="absolute left-0 right-0 border-t border-blue-500/40 border-dashed flex justify-between items-center" style={{ top: `${pct}%` }}>
-                    <span className="text-[10px] text-blue-600 font-black bg-white/80 px-1 -translate-y-1/2 shadow-sm rounded-sm backdrop-blur-sm">T:{pct}%</span>
-                    <span className="text-[10px] text-blue-600 font-black bg-white/80 px-1 -translate-y-1/2 shadow-sm rounded-sm backdrop-blur-sm">T:{pct}%</span>
-                  </div>
-                ))}
+              </GoogleMap>
+            ) : (
+              <div className="w-full h-full flex items-center justify-center bg-slate-100">
+                <span className="text-[10px] uppercase tracking-[0.3em] font-bold text-slate-400 animate-pulse">Loading Map...</span>
               </div>
             )}
-
-            {/* 图钉渲染层 */}
-            {projects.map((proj) => (
-              <div 
-                key={proj.id} 
-                className="absolute transition-all duration-700 cursor-pointer z-20 group/pin"
-                style={{ top: proj.mapPos.top, left: proj.mapPos.left }}
-                onClick={() => setSelectedProject(proj)}
-              >
-                <div className="w-5 h-5 md:w-6 md:h-6 bg-slate-900 rounded-full absolute -inset-0 animate-ping opacity-10"></div>
-                <div className="w-5 h-5 md:w-6 md:h-6 bg-slate-900 rounded-full relative z-10 border-[4px] md:border-[6px] border-white shadow-2xl group-hover/pin:scale-125 transition-transform duration-500"></div>
-                
-                {/* 悬浮框 */}
-                <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-4 md:mb-6 bg-white px-6 md:px-8 py-4 md:py-5 shadow-3xl border border-slate-100 opacity-0 group-hover/pin:opacity-100 transition-all translate-y-4 group-hover/pin:translate-y-0 whitespace-nowrap z-30 pointer-events-none">
-                  <span className="text-[10px] md:text-[12px] uppercase tracking-[0.4em] font-black block mb-2">{proj[lang].name}</span>
-                  <span className="text-[9px] md:text-[10px] text-slate-400 uppercase tracking-widest">{proj[lang].status}</span>
-                </div>
-              </div>
-            ))}
           </div>
         </div>
       </section>
@@ -385,4 +400,3 @@ const App = () => {
 };
 
 export default App;
-
