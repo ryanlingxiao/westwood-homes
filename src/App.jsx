@@ -169,6 +169,29 @@ const App = () => {
     },
     {
       id: 4,
+      isSold: true,
+      coordinates: { lat: 47.669749, lng: -122.360876 },
+      image: '/5607 3rd Ave NW.png',
+      gallery: [
+        '/5607 3rd Ave NW.png', '/5607 3rd Ave NW 1.png', '/5607 3rd Ave NW 2.png', '/5607 3rd Ave NW 3.png',
+        '/5607 3rd Ave NW 4.png', '/5607 3rd Ave NW 5.png', '/5607 3rd Ave NW 6.png', '/5607 3rd Ave NW 7.png',
+        '/5607 3rd Ave NW 8.png', '/5607 3rd Ave NW 9.png', '/5607 3rd Ave NW 10.png'
+      ],
+      en: {
+        name: 'Woodland Luxury SFH', location: 'Seattle, WA 98107', status: 'Finished and sold in 2019', type: 'Single Family',
+        shortStatus: 'Sold in 2019',
+        description: 'A contemporary luxury single-family home in the Ballard neighborhood offering stunning views of the Olympic Mountains. This 4-bedroom, 3.5-bath residence features custom cabinetry, premium Sub-Zero and Wolf appliances, heated bathroom floors, and extensive smart home integrations including A/C and EV charging. The lower level includes a large recreation room with a wet bar, perfect for entertaining, all in a prime location with easy access to downtown and I-5.',
+        highlights: ['Ballard Neighborhood', 'Olympic Mountain Views', 'Premium Appliances', 'Smart Home & EV Ready']
+      },
+      zh: {
+        name: 'Woodland Luxury SFH', location: 'Seattle, WA 98107', status: '已完工并售出 (2019年)', type: '独栋别墅',
+        shortStatus: '已售出 (2019)',
+        description: '位于巴拉德（Ballard）社区的现代奢华独栋别墅，可饱览奥林匹克山的壮丽景色。这座拥有4卧3.5卫的住宅配备了定制橱柜、顶级的 Sub-Zero 和 Wolf 厨房电器、浴室地暖，以及包括空调和电车充电在内的全面智能家居配置。底层设有带水吧的宽敞娱乐室，是家庭聚会的理想场所。地理位置优越，靠近学校与商圈，可轻松前往市中心及I-5公路。',
+        highlights: ['巴拉德优质社区', '奥林匹克山景', '顶级厨房电器', '全屋智能与电车充电']
+      }
+    },
+    {
+      id: 5,
       coordinates: { lat: 47.599420, lng: -122.296530 },
       image: '/321 MLK JR Way S.png',
       gallery: ['/321 MLK JR Way S.png', '/321 MLK JR Way S 2.png'],
@@ -184,7 +207,7 @@ const App = () => {
       }
     },
     {
-      id: 5,
+      id: 6,
       coordinates: { lat: 47.598552, lng: -122.297606 },
       image: '/421 MLK JR WAY S.png',
       gallery: ['/421 MLK JR WAY S.png', '/421 MLK JR WAY S 1.png', '/421 MLK JR WAY S 2.png'],
@@ -200,7 +223,7 @@ const App = () => {
       }
     },
     {
-      id: 6,
+      id: 7,
       coordinates: { lat: 47.551136, lng: -122.323364 },
       image: '/720 S Orcas St.png',
       gallery: ['/720 S Orcas St.png', '/720 S Orcas St 1.png'],
