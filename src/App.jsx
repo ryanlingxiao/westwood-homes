@@ -83,7 +83,7 @@ const App = () => {
     if (!window.google) {
       const script = document.createElement('script');
       // 注意：未来您可以直接在等号后面加上您的 API Key 来消除水印
-      script.src = `https://maps.googleapis.com/maps/api/js?key=`; 
+      script.src = `https://maps.googleapis.com/maps/api/js?key=AIzaSyAOUcgg1kKe3maTVKpWnda05A-3lRRavQs`; 
       script.async = true;
       script.defer = true;
       script.onload = () => setIsGoogleLoaded(true);
@@ -548,3 +548,4 @@ const App = () => {
 };
 
 export default App;
+
